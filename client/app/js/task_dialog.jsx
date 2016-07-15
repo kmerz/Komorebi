@@ -93,6 +93,9 @@ export default class TaskDialog extends React.Component {
     this.form_values.points = value;
   }
 
+  priorityHandler = (value) => {
+    this.form_values.priority = value;
+  }
 
   render() {
     const actions = [
@@ -120,6 +123,8 @@ export default class TaskDialog extends React.Component {
           stories={this.props.stories} story_id={this.state.last_sel_story_id}
         />
         <br />
+         <StoryPointPicker title="Priority" key='1' valueHandler={this.priorityHandler}
+         range={[1,2,3,4,5,6,7,8,9,10]}/>
         <br />
         Add a name
         <br />
