@@ -39,13 +39,15 @@ export default class StoryEditDialog extends React.Component {
 
   componentWillUnmount = () => {
     ErrorStore.removeChangeListener(this._onError);
+    BoardStore.removeChangeListener(this._onChange);
   }
 
   componentDidMount = () => {
     ErrorStore.addChangeListener(this._onError);
+    BoardStore.addChangeListener(this._onChange);
   }
 
-  componentDidUpdate = () => {
+  _onChange = () => {
     var story = BoardStore.getStory();
     if (story && story !== this.state.story) {
       this.setState(this.getState(story));
