@@ -19,7 +19,10 @@ const styles = {
     width: 20,
     height: 20,
     padding: 0
-  }
+  },
+  label_icon: {
+    marginRight: 5,
+  },
 };
 
 /**
@@ -122,24 +125,25 @@ export default class Column extends React.Component {
   }
 
   render () {
-    var img = undefined;
+    var story = BoardStore.getStoryById(this.props.task_story_id);
+    var name = <span>{this.props.name}</span>;
+    var icon = <LabelIcon style={styles.label_icon} color={story.color}/>;
     var user_name = "";
+    var img = undefined;
     if (this.props.user) {
-      user_name = this.props.user.name;
+      user_name = <span>{icon} {this.props.user.name}</span>;
       if (this.props.user.image_path) {
         img = this.props.user.image_path;
       } else {
         img = "/images/users/" + this.props.user.name +  ".png";
       }
+    } else {
+      user_name = <span>{icon}</span>;
     }
-    var story = BoardStore.getStoryById(this.props.task_story_id);
-    var iconName = <span><LabelIcon color={story.color}/>
-      <span>{this.props.name}</span>
-    </span>;
 
     return <Card className="task">
-      <CardHeader titleStyle={{fontSize: 20}}
-        title={iconName}
+      <CardHeader titleStyle={{fontSize: 16}}
+        title={name}
         avatar={img}
         subtitle={user_name}
       />
