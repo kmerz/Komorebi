@@ -40,16 +40,15 @@ class App extends React.Component {
 
   componentDidMount = () => {
     BoardStore.addChangeListener(this._onChange);
-    if(!this.props.landing) {
+    if (!this.props.landing) {
       BoardActions.initBoard();
     }
   }
 
-  setFilterHandler = () => {
-  }
+  setFilterHandler = () => {}
 
   render() {
-    if(this.props.landing) {
+    if (this.props.landing) {
       return <MuiThemeProvider>
         <LandingLayout title="Boards">
           <ConfirmationDialog />

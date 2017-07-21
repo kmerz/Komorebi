@@ -1,6 +1,18 @@
 /*jshint esversion: 6 */
 import AppDispatcher from '../dispatcher/AppDispatcher';
 var BoardActions = {
+  login: (user, password) => {
+    AppDispatcher.dispatch({
+        actionType: "LOGIN",
+        user: user,
+        password: password
+    });
+  },
+  logout: () => {
+    AppDispatcher.dispatch({
+      actionType: "LOGOUT",
+    });
+  },
   fetchBoard: () => {
     AppDispatcher.dispatch({
       actionType: "FETCH_BOARD",
@@ -132,6 +144,16 @@ var BoardActions = {
   toggleBoardMenu: () =>  {
     AppDispatcher.dispatch({
       actionType: "TOGGLE_MENU"
+    });
+  },
+  toggleLogin: () =>  {
+    AppDispatcher.dispatch({
+      actionType: "TOGGLE_LOGIN"
+    });
+  },
+  toggleLoggedIn: () =>  {
+    AppDispatcher.dispatch({
+        actionType: "TOGGLE_LOGGED_IN"
     });
   },
   closeStoryShowDialog: () =>  {

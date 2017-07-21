@@ -15,7 +15,7 @@ import Colors from './color';
 import BoardStore from './store/BoardStore';
 import BoardActions from './actions/BoardActions';
 
-export default class BoardLayout extends Layout  {
+export default class BoardLayout extends Layout {
   constructor(props) {
     super(props);
     this.state = this.getDialogState();
@@ -45,13 +45,17 @@ export default class BoardLayout extends Layout  {
   handleTouchTapMenuBtn = (event) => {
     event.preventDefault();
     BoardActions.toggleBoardMenu();
-    this.setState({menu_achor: event.currentTarget});
+    this.setState({
+      menu_achor: event.currentTarget
+    });
   }
 
   handleTouchTapCloseMenu = () => {
     var achor_element = this.state.menu_achor;
     BoardActions.toggleBoardMenu();
-    this.setState({menu_achor: achor_element});
+    this.setState({
+      menu_achor: achor_element
+    });
   }
 
   render() {
@@ -59,10 +63,12 @@ export default class BoardLayout extends Layout  {
       <AppBar
         title={this.props.title}
         iconElementRight={
-          <FlatButton label="木漏れ日" href={"/"}
-            style={{verticalAlign: "baseline"}}
-            labelStyle={{fontSize: "30px", color: Colors.light_red,
-              fontWeight: "bold"}}/>
+          <div>
+            <FlatButton label="木漏れ日" href={"/"}
+              style={{marginTop: "3px"}}
+              labelStyle={{fontSize: "30px", color: Colors.light_red,
+                         fontWeight: "bold"}}/>
+          </div>
         }
         onLeftIconButtonTouchTap={this.handleTouchTapMenuBtn}
         style={{backgroundColor: Colors.dark_gray}} />

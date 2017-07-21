@@ -25,6 +25,8 @@ var story_dod_data = null;
 
 var message = "";
 var menu_open = false;
+var login_open = false;
+var logged_in = false;
 var show_user_assign = false;
 var show_board_list = false;
 var column_dialog_open = false;
@@ -160,6 +162,12 @@ var BoardStore = assign({}, EventEmitter.prototype, {
   },
   getMenuOpen: () => {
     return menu_open;
+  },
+  getLoginOpen: () => {
+    return login_open;
+  },
+  getLoggedIn: () => {
+    return logged_in;
   },
   getConfirmationOpen: () => {
     return confirmation_open;
@@ -624,6 +632,18 @@ var addStory = (form_values) => {
   });
 };
 
+var logoutUser = () => {
+  return Ajax.postJson('/logout');
+};
+
+var loginUser = (user, password) => {
+  var data = {
+    name: user,
+    password: password
+  };
+  return Ajax.postJson('/login', data);
+};
+
 var addUser = (data) => {
   return Ajax.postJson('/users', data).then(response => {
     var response_obj = JSON.parse(response.responseText);
@@ -689,6 +709,16 @@ AppDispatcher.register(function(action) {
     case "FETCH_ALL":
       fetchAll().then(() => {BoardStore.emitChange();});
       break;
+    case "LOGIN":
+      loginUser(action.user, action.password).then(() =>{
+        fetchAll().then(() => {BoardStore.emitChange();});
+      });
+      break;
+    case "LOGOUT":
+      logoutUser(action.user, action.password).then(() =>{
+        fetchAll().then(() => {BoardStore.emitChange();});
+      });
+    break;
     case "FETCH_BOARD":
       fetchBoard().
         then(() => {BoardStore.emitChange();});
@@ -796,6 +826,22 @@ AppDispatcher.register(function(action) {
         menu_open = false;
       } else {
         menu_open = true;
+      }
+      BoardStore.emitChange();
+      break;
+    case "TOGGLE_LOGIN":
+      if (login_open) {
+        login_open = false;
+      } else {
+        login_open = true;
+      }
+      BoardStore.emitChange();
+      break;
+    case "TOGGLE_LOGGED_IN":
+      if (logged_in) {
+          logged_in = false;
+      } else {
+          logged_in = true;
       }
       BoardStore.emitChange();
       break;

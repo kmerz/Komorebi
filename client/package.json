@@ -27,6 +27,7 @@
     "react": "^15.2.1",
     "react-bootstrap": "^0.30.6",
     "react-chartjs": "^0.8.0",
+    "react-cookie": "^2.0.8",
     "react-dom": "^15.2.1",
     "react-markdown": "^2.4.2",
     "react-tap-event-plugin": "git+https://github.com/zilverline/react-tap-event-plugin.git#master",

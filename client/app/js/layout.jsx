@@ -6,17 +6,25 @@ import MyMenu from './menu';
 class Layout extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {menu_open: false};
+    this.state = {
+      menu_open: false
+    };
   }
 
   handleTouchTapMenuBtn = (event) => {
     event.preventDefault();
-    this.setState({menu_open: true, menu_achor: event.currentTarget});
+    this.setState({
+      menu_open: true,
+      menu_achor: event.currentTarget
+    });
   }
 
   handleTouchTapCloseMenu = () => {
     var achor_element = this.state.menu_achor;
-    this.setState({menu_open: false, menu_achor: achor_element});
+    this.setState({
+      menu_open: false,
+      menu_achor: achor_element
+    });
   }
 
   render() {

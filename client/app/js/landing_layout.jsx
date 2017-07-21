@@ -8,12 +8,15 @@ import Colors from './color';
 import React from 'react';
 import BoardStore from './store/BoardStore';
 import BoardActions from './actions/BoardActions';
+import LoginDialog from './login_dialog';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MsgSnackbar from './msg_snackbar';
 import BoardList from './board_list';
 import UserAssgin from './user_assign';
+import { Cookies } from 'react-cookie';
 
 class LandingLayout extends Layout  {
+
   constructor(props) {
     super(props);
     this.state = this.getState();
@@ -21,6 +24,7 @@ class LandingLayout extends Layout  {
 
   getState = () => {
     return {
+      login_open: BoardStore.getLoginOpen(),
       list_items: BoardStore.getBoards(),
       menu_open: false,
       board_open: BoardStore.getBoardDialogOpen(),
@@ -61,17 +65,48 @@ class LandingLayout extends Layout  {
     BoardActions.fetchBoards();
   }
 
+  handleLogin = () => {
+    BoardActions.toggleLogin();
+  }
+
+  handleLogout = () => {
+    BoardActions.logout();
+  }
+
+  login_logout = () => {
+    var session = localStorage.getItem("loginSession");
+    console.log(session);
+
+    if (session) {
+      return (<FlatButton label="logout"
+        style={{marginTop: "8px"}}
+        onTouchTap={this.handleLogout}
+        labelStyle={{fontSize: "20px", color: Colors.white}}/>);
+    } else {
+      return (<FlatButton label="login"
+        style={{marginTop: "8px"}}
+        onTouchTap={this.handleLogin}
+        labelStyle={{fontSize: "20px", color: Colors.white}}/>);
+    }
+  }
+
   render() {
     var content =  this.state.show_user_assign ? <UserAssgin /> : <BoardList />;
     return <div>
       <AppBar
         title={this.props.title}
         onLeftIconButtonTouchTap={this.handleTouchTapMenuBtn}
-        iconElementRight={<FlatButton label="木漏れ日"
-          href={"https://github.com/mafigit/Komorebi"}
-          labelStyle={{fontSize: "30px", color: Colors.light_red,
-            fontWeight: "bold"}}/>}
         style={{backgroundColor: Colors.dark_gray}}
+          iconElementRight={
+              <div>
+                  {this.login_logout()}
+                  <FlatButton label="木漏れ日"
+                    style={{marginTop: "3px"}}
+                    href={"https://github.com/mafigit/Komorebi"}
+                    labelStyle={{fontSize: "30px", color: Colors.light_red,
+                    fontWeight: "bold"}}/>
+              </div>
+          }
       />
       <MyMenu open={this.state.menu_open} achor={this.state.menu_achor}
         touchAwayHandler={this.handleTouchTapCloseMenu}
@@ -82,6 +117,7 @@ class LandingLayout extends Layout  {
       <UserDialog open={this.state.user_open}
         handleClose={this.handleUserDialogClose}
       />
+      <LoginDialog />
       {content}
       {this.props.children}
       <MsgSnackbar/>
